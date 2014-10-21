@@ -30,7 +30,7 @@ public class XMLLoader extends EventDispatcher{
 
         this.dispatchEvent(new EventXMLCompleteLoad(EventXMLCompleteLoad.COMPLETE_LOAD, true));
         xml = new XML(event.target.data);
-        trace(xml);
+
     }
 }
 }
