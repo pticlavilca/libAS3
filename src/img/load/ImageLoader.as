@@ -11,27 +11,25 @@ import flash.net.URLRequest;
 public class ImageLoader extends EventDispatcher{
 
         private var url:String;
-        private var container:MovieClip;
         private var loader:Loader;
 
-        public function ImageLoader(_url:String, _container:MovieClip) {
+        public function ImageLoader(_url:String) {
             this.url = _url;
-            this.container = _container;
             init();
         }
 
         private function init():void {
             loader = new Loader();
             loader.contentLoaderInfo.addEventListener(Event.COMPLETE, handlerComplete)
+
+        }
+
+        public function load():void{
             loader.load(new URLRequest(url));
         }
 
         private function handlerComplete(event:Event):void {
-            container.addChild(event.target.content)
-            this.dispatchEvent(new EventImageCompleteLoad(EventImageCompleteLoad.COMPLETE_LOAD, true));
-
-
-
+            this.dispatchEvent(new EventImageCompleteLoad(EventImageCompleteLoad.COMPLETE_LOAD, true, event.target.content));
         }
     }
 }

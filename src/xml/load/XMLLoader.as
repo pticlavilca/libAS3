@@ -10,13 +10,10 @@ import flash.net.URLRequest;
 
 public class XMLLoader extends EventDispatcher{
     private var url:String;
-    private var xml:XML;
 
-    public function XMLLoader(_url:String, _xml:XML) {
+    public function XMLLoader(_url:String) {
 
         this.url = _url;
-        this.xml = _xml;
-
         init();
     }
 
@@ -27,9 +24,8 @@ public class XMLLoader extends EventDispatcher{
     }
 
     private function handlerCompleteLoad(event:Event):void {
-
-        this.dispatchEvent(new EventXMLCompleteLoad(EventXMLCompleteLoad.COMPLETE_LOAD, true));
-        xml = new XML(event.target.data);
+        var xml:XML = new XML(event.target.data);
+        this.dispatchEvent(new EventXMLCompleteLoad(EventXMLCompleteLoad.COMPLETE_LOAD, true, xml));
 
     }
 }
