@@ -8,14 +8,16 @@ import flash.events.Event;
 public class EventLoadStackImage extends Event {
 
     public static const COMPLETE_LOAD:String = "COMPLETE_LOAD";
-    public var vector:Vector.<MovieClip>;
+    public var imageVector:Vector.<MovieClip>;
     public var isLoad:Boolean;
+    public var descriptionVector:Vector.<String>;
 
-    public function EventLoadStackImage(type:String, _vector:Vector.<MovieClip>, _isLoad:Boolean) {
+    public function EventLoadStackImage(type:String, _imageVector:Vector.<MovieClip>, _isLoad:Boolean, _descriptionVector:Vector.<String>) {
         super(type);
 
-        vector = _vector;
+        imageVector = _imageVector;
         isLoad = _isLoad;
+        this.descriptionVector = _descriptionVector;
     }
 }
 }

@@ -4,13 +4,9 @@
 package img.load.stackimage {
 import flash.display.MovieClip;
 import flash.events.EventDispatcher;
-
 import img.load.EventImageCompleteLoad;
-
 import img.load.ImageLoader;
-
 import xml.load.EventXMLCompleteLoad;
-
 import xml.load.XMLLoader;
 
 /*References
@@ -24,12 +20,16 @@ public class LoadStackImage extends EventDispatcher{
 
 
     private var url:String;
-    private var vector:Vector.<MovieClip>;
-    public function LoadStackImage(_url:String, _vector:Vector.<MovieClip>) {
+    private var imageVector:Vector.<MovieClip>;
+    private var descriptionVector:Vector.<String>;
 
-        vector = new Vector.<MovieClip>();
-        vector = _vector;
+    public function LoadStackImage(_url:String) {
+
+        imageVector = new Vector.<MovieClip>();
+        descriptionVector = new Vector.<String>;
         this.url = _url;
+
+
         loadConfig();
 
     }
@@ -45,7 +45,14 @@ public class LoadStackImage extends EventDispatcher{
 
     private function handler_completeLoadXMLLoader(event:EventXMLCompleteLoad):void {
         configXML = event.xml;
+        loadText();
         loadImage();
+    }
+
+    private function loadText():void {
+        for(var i:Number = 0; i<configXML.element.length(); i++){
+            descriptionVector.push(configXML.element[i].description);
+        }
     }
 
 
@@ -60,19 +67,17 @@ public class LoadStackImage extends EventDispatcher{
             imageLoader.load();
 
         }
-
-
     }
 
 
     private function handler_imageLoaderCompleteLoad(event:EventImageCompleteLoad):void {
         var movieClip:MovieClip = new MovieClip()
         movieClip.addChild(event.bitmap);
-        vector.push(movieClip);
+        imageVector.push(movieClip);
 
         try{
-            if(vector[configXML.element.length()-1].numChildren){
-                this.dispatchEvent(new EventLoadStackImage(EventLoadStackImage.COMPLETE_LOAD, vector,true));
+            if(imageVector[configXML.element.length()-1].numChildren){
+                this.dispatchEvent(new EventLoadStackImage(EventLoadStackImage.COMPLETE_LOAD, imageVector,true, descriptionVector));
             }
         }
         catch(e:Error){
